@@ -30,7 +30,7 @@ const GenreLogo = () => {
   return (
     <div className="text-white bg-transparent w-10 h-10 my-auto">
       <img
-        src="/logo-alt.png"
+        src="/placeholder.jpeg"
         className="object-center object-fill rounded-lg 
         shadow-white shadow-none hover:shadow-[#ff847c] hover:shadow-md 
         transition-all duration-200"

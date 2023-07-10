@@ -4,7 +4,7 @@ export const Logo = () => {
     <div className="text-white bg-transparent w-12 h-12 ml-5 my-auto">
       <img
         src="/logo-alt.png"
-        className="object-center object-fill rounded-lg 
+        className="aspect-square object-cover rounded-lg 
         shadow-white shadow-none hover:shadow-[#ff847c] hover:shadow-md 
         transition-all duration-200"
       />
