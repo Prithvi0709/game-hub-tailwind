@@ -1,7 +1,10 @@
-const Header = () => {
+interface Props {
+  Title: string;
+}
+const Header = ({ Title }: Props) => {
   return (
     <>
-      <div className="text-white text-7xl mb-6">Games</div>
+      <div className="text-white text-7xl mb-6">{Title}</div>
       <div className="flex text-white text-xl font-semibold">
         <div className=" bg-neutral-700 rounded-lg mr-5 pl-5 pr-5">
           <select

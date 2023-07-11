@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import apiClient from "../../services/api-client";
-
 // interface FetchResponse {
 //   background_image: string;
 //   name: string;
@@ -13,19 +10,16 @@ interface FetchResponseTest {
   images: string[];
   thumbnail: string;
   title: string;
+  stock: number;
 }
 
-const GameCard = () => {
-  const [GameData, setGameData] = useState<FetchResponseTest[]>([]);
-  const [Error, setError] = useState();
+interface Props {
+  GameData: FetchResponseTest[];
+  Error: string;
+}
 
+const GameCard = ({ GameData, Error }: Props) => {
   // Disabled to save API calls
-  useEffect(() => {
-    apiClient
-      .get("/products") //"/games"
-      .then((res) => setGameData(res.data.products))
-      .catch((err) => setError(err.message));
-  }, []);
 
   return (
     <>
@@ -63,7 +57,7 @@ const MetacriticScore = ({ score }: { score: number }) => {
     <div
       className="bg-green-700 bg-opacity-50  
                   text-green-400 text-lg font-bold text-center
-                  w-10 rounded-lg "
+                  w-auto pl-2 pr-2 rounded-lg "
     >
       {score}
     </div>

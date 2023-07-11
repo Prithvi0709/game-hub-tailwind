@@ -7,7 +7,11 @@ import apiClient from "../../services/api-client";
 //   id: number;
 // }
 
-const GenreCard = () => {
+interface Props {
+  onClick: (genre: string) => void;
+}
+
+const GenreCard = ({ onClick }: Props) => {
   const [Genre, setGenre] = useState([]);
   const [Error, setError] = useState("");
 
@@ -23,16 +27,25 @@ const GenreCard = () => {
       {Error ? (
         <p className="text-red-700 text-2xl mt-10">{Error}</p>
       ) : (
-        <ul>
+        <div className="flex flex-col">
           {Genre.map((genre) => (
-            <li key={genre}>
-              <div className="flex justify-start items-center mb-5">
-                <GenreLogo url="/logo-alt.png" />{" "}
-                <div className="ml-4 text-lg font-light">{genre}</div>
-              </div>
-            </li>
+            <div key={genre} className="items-center mb-5 ">
+              <button
+                onClick={() => {
+                  onClick(genre);
+                }}
+                className="rounded-lg  hover:bg-white hover:text-black 
+                active:bg-slate-200 font-light active:font-bold
+                transition-all duration-200"
+              >
+                <div className="flex justify-start items-center pr-2 ">
+                  <GenreLogo url="/logo-alt.png" />
+                  <div className="ml-4 text-lg ">{genre}</div>
+                </div>
+              </button>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </>
   );
@@ -41,12 +54,7 @@ const GenreCard = () => {
 const GenreLogo = ({ url }: { url: string }) => {
   return (
     <div className="text-white bg-transparent w-10 h-10 my-auto">
-      <img
-        src={url}
-        className="aspect-square object-cover rounded-lg 
-        shadow-white shadow-none hover:shadow-[#ff847c] hover:shadow-md 
-        transition-all duration-200"
-      />
+      <img src={url} className="aspect-square object-cover rounded-lg" />
     </div>
   );
 };
