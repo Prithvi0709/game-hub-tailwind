@@ -1,27 +1,22 @@
 import { useEffect, useState } from "react";
 import apiClient from "../../services/api-client";
 
-interface GenreData {
-  image_background: string;
-  name: string;
-  id: number;
-}
+// interface GenreData {
+//   image_background: string;
+//   name: string;
+//   id: number;
+// }
 
 const GenreCard = () => {
-  const [Genre, setGenre] = useState<GenreData[]>([
-    { image_background: "/logo-alt.png", name: "Action", id: 0 },
-    { image_background: "/logo-alt.png", name: "Strategy", id: 0 },
-    { image_background: "/logo-alt.png", name: "Multiplayer", id: 0 },
-    { image_background: "/logo-alt.png", name: "Multiplayer", id: 0 },
-  ]);
+  const [Genre, setGenre] = useState([]);
   const [Error, setError] = useState("");
 
-  // useEffect(() => {
-  //   apiClient
-  //     .get("/genres")
-  //     .then((res) => setGenre(res.data.results))
-  //     .catch((err) => setError(err.message));
-  // }, []);
+  useEffect(() => {
+    apiClient
+      .get("/products/categories") // "/genres"
+      .then((res) => setGenre(res.data))
+      .catch((err) => setError(err.message));
+  }, []);
 
   return (
     <>
@@ -30,10 +25,10 @@ const GenreCard = () => {
       ) : (
         <ul>
           {Genre.map((genre) => (
-            <li key={genre.id}>
+            <li key={genre}>
               <div className="flex justify-start items-center mb-5">
-                <GenreLogo url={genre.image_background} />{" "}
-                <div className="ml-2 text-lg font-light">{genre.name}</div>
+                <GenreLogo url="/logo-alt.png" />{" "}
+                <div className="ml-4 text-lg font-light">{genre}</div>
               </div>
             </li>
           ))}
@@ -43,12 +38,7 @@ const GenreCard = () => {
   );
 };
 
-interface LogoUrl {
-  url: string;
-}
-
-// Update the logo Maker to suit the genre's needs
-const GenreLogo = ({ url }: LogoUrl) => {
+const GenreLogo = ({ url }: { url: string }) => {
   return (
     <div className="text-white bg-transparent w-10 h-10 my-auto">
       <img
