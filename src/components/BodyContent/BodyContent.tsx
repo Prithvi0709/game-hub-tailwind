@@ -1,4 +1,4 @@
-import GameCard from "./Games";
+import GameCard from "./GameCards";
 import Header from "./Header";
 
 const BodyContent = () => {

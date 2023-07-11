@@ -8,15 +8,20 @@ interface GenreData {
 }
 
 const GenreCard = () => {
-  const [Genre, setGenre] = useState<GenreData[]>([]);
+  const [Genre, setGenre] = useState<GenreData[]>([
+    { image_background: "/logo-alt.png", name: "Action", id: 0 },
+    { image_background: "/logo-alt.png", name: "Strategy", id: 0 },
+    { image_background: "/logo-alt.png", name: "Multiplayer", id: 0 },
+    { image_background: "/logo-alt.png", name: "Multiplayer", id: 0 },
+  ]);
   const [Error, setError] = useState("");
 
-  useEffect(() => {
-    apiClient
-      .get("/genres")
-      .then((res) => setGenre(res.data.results))
-      .catch((err) => setError(err.message));
-  }, []);
+  // useEffect(() => {
+  //   apiClient
+  //     .get("/genres")
+  //     .then((res) => setGenre(res.data.results))
+  //     .catch((err) => setError(err.message));
+  // }, []);
 
   return (
     <>
