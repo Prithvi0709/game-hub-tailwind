@@ -1,17 +1,9 @@
+import FetchResponse from "../Helper";
 import GameCard from "./GameCards";
 import Header from "./Header";
 
-interface FetchResponseTest {
-  id: number;
-  rating: number;
-  images: string[];
-  thumbnail: string;
-  title: string;
-  stock: number;
-}
-
 interface Props {
-  GameData: FetchResponseTest[];
+  GameData: FetchResponse[];
   Error: string;
   Title: string;
 }

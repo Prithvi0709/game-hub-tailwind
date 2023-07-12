@@ -1,26 +1,12 @@
-// interface FetchResponse {
-//   background_image: string;
-//   name: string;
-//   id: number;
-//   metacritic: number;
-// }
-interface FetchResponseTest {
-  id: number;
-  rating: number;
-  images: string[];
-  thumbnail: string;
-  title: string;
-  stock: number;
-}
+import FetchResponse from "../Helper";
+import { platformIcons } from "./platformIcons";
 
 interface Props {
-  GameData: FetchResponseTest[];
+  GameData: FetchResponse[];
   Error: string;
 }
 
 const GameCard = ({ GameData, Error }: Props) => {
-  // Disabled to save API calls
-
   return (
     <>
       {Error ? (
@@ -34,15 +20,15 @@ const GameCard = ({ GameData, Error }: Props) => {
                         min-h-max w-80 rounded-xl bg-neutral-700"
             >
               <img
-                src={data.thumbnail}
+                src={data.background_image}
                 alt="/GameCard.jpg"
                 className="aspect-video object-cover rounded-t-xl"
               />
               <div className="flex flex-row justify-between pl-5 pt-5 pr-5">
-                <div className="">Compatibility</div>
-                <MetacriticScore score={data.rating} />
+                <div className="text-white">{platformIcons(data)}</div>
+                <MetacriticScore score={data.metacritic} />
               </div>
-              <div className="relative w-full text-4xl p-5">{data.title}</div>
+              <div className="relative w-full text-4xl p-5">{data.name}</div>
             </div>
           ))}
         </div>

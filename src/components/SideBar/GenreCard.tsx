@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import apiClient from "../../services/api-client";
 
-// interface GenreData {
-//   image_background: string;
-//   name: string;
-//   id: number;
-// }
+interface GenreData {
+  image_background: string;
+  name: string;
+  id: number;
+}
 
 interface Props {
   onClick: (genre: string) => void;
 }
 
 const GenreCard = ({ onClick }: Props) => {
-  const [Genre, setGenre] = useState([]);
+  const [Genre, setGenre] = useState<GenreData[]>([]);
   const [Error, setError] = useState("");
 
   useEffect(() => {
     apiClient
-      .get("/products/categories") // "/genres"
-      .then((res) => setGenre(res.data))
+      .get("/genres")
+      .then((res) => setGenre(res.data.results))
       .catch((err) => setError(err.message));
   }, []);
 
@@ -29,18 +29,18 @@ const GenreCard = ({ onClick }: Props) => {
       ) : (
         <div className="flex flex-col">
           {Genre.map((genre) => (
-            <div key={genre} className="items-center mb-5 ">
+            <div key={genre.id} className="items-center mb-2 ">
               <button
                 onClick={() => {
-                  onClick(genre);
+                  onClick(genre.name);
                 }}
                 className="rounded-lg  hover:bg-white hover:text-black 
                 active:bg-slate-200 font-light active:font-bold
                 transition-all duration-200"
               >
                 <div className="flex justify-start items-center pr-2 ">
-                  <GenreLogo url="/logo-alt.png" />
-                  <div className="ml-4 text-lg ">{genre}</div>
+                  <GenreLogo url={genre.image_background} />
+                  <div className="ml-4 text-lg ">{genre.name}</div>
                 </div>
               </button>
             </div>
