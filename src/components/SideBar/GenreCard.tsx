@@ -64,7 +64,7 @@ const GenreCard = ({ onClick }: Props) => {
 const ShimmerList = ({ count }: { count: number }) => {
   const shimmerItems = Array.from({ length: count }, (_, index) => (
     <div key={index} className="items-center mb-2">
-      <Shimmer width={120} height={40} className="rounded-lg" />
+      <Shimmer width={150} height={40} className="rounded-lg" />
     </div>
   ));
 
