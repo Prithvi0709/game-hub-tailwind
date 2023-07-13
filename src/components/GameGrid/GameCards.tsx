@@ -1,14 +1,37 @@
 import { Shimmer } from "react-shimmer";
-import FetchResponse from "../Helper";
-import { platformIcons } from "./platformIcons";
+import FetchResponse from "../Interface";
+import { platformIcons } from "./PlatformIconsGen";
+import { UserRating, MetacriticScore } from "./ScoringLogic";
 
 interface Props {
   GameData: FetchResponse[];
   Error: string;
   CardLoading: boolean;
+  EmptyCardData: boolean;
 }
 
-const GameCard = ({ GameData, Error, CardLoading }: Props) => {
+const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
+  if (EmptyCardData) {
+    return (
+      <div
+        className="flex flex-col justify-start
+                        min-h-max w-80 mx-auto mt-20 rounded-xl bg-neutral-700"
+      >
+        <img
+          src="./exclaimation.jpg"
+          alt="/GameCard.jpg"
+          className="aspect-video object-cover rounded-t-xl"
+        />
+        <div className="relative w-full text-center text-4xl text-white p-5">
+          Data Unavailable
+        </div>
+        <div className="relative w-full text-center text-sm text-white pb-5">
+          No games in the selected genre currently.{" "}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       {Error ? (
@@ -25,12 +48,33 @@ const GameCard = ({ GameData, Error, CardLoading }: Props) => {
             >
               <img
                 src={data.background_image}
-                alt="/GameCard.jpg"
+                alt="Picture"
                 className="aspect-video object-cover rounded-t-xl"
               />
-              <div className="flex flex-row justify-between pl-5 pt-5 pr-5">
+              <div className="flex flex-row justify-between items-center pl-5 pt-5 pr-5">
                 <div className="text-white">{platformIcons(data)}</div>
-                <MetacriticScore score={data.metacritic} />
+                <div className="relative ml-auto mr-2 group cursor-default">
+                  <UserRating rating={data.rating} />
+                  <div
+                    className="absolute w-full h-full bottom-5 text-sm 
+                              opacity-50
+                              scale-0 group-hover:scale-100 
+                                  transition-all duration-100"
+                  >
+                    Ratings
+                  </div>
+                </div>
+                <div className="relative group cursor-default">
+                  <MetacriticScore score={data.metacritic} />
+                  <div
+                    className="absolute w-full h-full bottom-5 right-3 text-sm 
+                              opacity-50
+                              scale-0 group-hover:scale-100 
+                                  transition-all duration-100"
+                  >
+                    Metacritic
+                  </div>
+                </div>
               </div>
               <div className="relative w-full text-4xl p-5">{data.name}</div>
             </div>
@@ -58,54 +102,6 @@ const ShimmerList = ({ count }: { count: number }) => {
   ));
 
   return <>{shimmerItems}</>;
-};
-
-// Display the Metacritic Score of the game
-const MetacriticScore = ({ score }: { score: number }) => {
-  let bgColor = "";
-  let textColor = "";
-
-  // Score is null
-  if (score == null) {
-    return (
-      <div
-        className={`${bgColor} bg-opacity-50  
-                  ${textColor} text-sm text-center
-                  w-auto pl-2 pr-2 rounded-lg`}
-      >
-        N/A
-      </div>
-    );
-  }
-
-  // Change the background color based on the metacritic value
-  if (score == null) {
-    bgColor = "bg-slate-200";
-  } else if (score >= 88) {
-    bgColor = "bg-green-700";
-    textColor = "text-green-500";
-  } else if (score >= 80) {
-    bgColor = "bg-yellow-700";
-    textColor = "text-yellow-500";
-  } else if (score >= 70) {
-    bgColor = "bg-orange-700";
-    textColor = "text-orange-500";
-  } else {
-    bgColor = "bg-red-700";
-    textColor = "text-red-500";
-  }
-
-  console.log(bgColor);
-
-  return (
-    <div
-      className={`${bgColor} bg-opacity-50  
-                  ${textColor} text-lg font-bold text-center
-                  w-auto pl-2 pr-2 rounded-lg`}
-    >
-      {score}
-    </div>
-  );
 };
 
 export default GameCard;

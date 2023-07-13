@@ -1,4 +1,4 @@
-import FetchResponse from "../Helper";
+import FetchResponse from "../Interface";
 import {
   FaApple,
   FaAndroid,

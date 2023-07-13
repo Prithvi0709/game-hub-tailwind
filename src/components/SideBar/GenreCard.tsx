@@ -1,33 +1,14 @@
-import { useEffect, useState } from "react";
-import apiClient from "../../services/api-client";
 import { Shimmer } from "react-shimmer";
-
-interface GenreData {
-  image_background: string;
-  name: string;
-  id: number;
-}
+import { GenreData } from "../Interface";
 
 interface Props {
   onClick: (genre: string) => void;
+  Genre: GenreData[];
+  Error: string;
+  genreLoading: boolean;
 }
 
-const GenreCard = ({ onClick }: Props) => {
-  const [Genre, setGenre] = useState<GenreData[]>([]);
-  const [Error, setError] = useState("");
-  const [genreLoading, setGenreLoading] = useState(false);
-
-  useEffect(() => {
-    setGenreLoading(true);
-    apiClient
-      .get("/genres")
-      .then((res) => {
-        setGenreLoading(false);
-        setGenre(res.data.results);
-      })
-      .catch((err) => setError(err.message));
-  }, []);
-
+const GenreCard = ({ onClick, Error, genreLoading, Genre }: Props) => {
   return (
     <>
       {Error ? (

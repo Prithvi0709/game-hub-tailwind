@@ -1,7 +1,8 @@
 interface Props {
   Title: string;
+  onChange: (val: string) => void;
 }
-const Header = ({ Title }: Props) => {
+const Header = ({ Title, onChange }: Props) => {
   return (
     <>
       <div className="text-white text-7xl mb-6">{Title}</div>
@@ -28,13 +29,12 @@ const Header = ({ Title }: Props) => {
             className="bg-neutral-700 h-10 rounded-lg focus:outline-none"
             name="order"
             id="order"
+            onChange={(event) => onChange(event.target.value)}
           >
-            <option value="order" selected>
-              Relevance
+            <option value="-metacritic" selected>
+              Metacritic Score
             </option>
-            <option value="dateadded">Date Added</option>
-            <option value="rating">Rating</option>
-            <option value="name">Name</option>
+            <option value="-rating">User Rating</option>
           </select>
         </div>
       </div>
