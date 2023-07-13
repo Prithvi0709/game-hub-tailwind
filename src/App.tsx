@@ -10,12 +10,17 @@ function App() {
   const [GameData, setGameData] = useState<FetchResponse[]>([]); // Data displayed in GameCards
   const [Error, setError] = useState(""); // Error for GameCards
   const [Title, setTitle] = useState("Games"); // Title for GameGrid Header
+  const [cardLoading, setCardLoading] = useState(false);
 
   // Get the data for products on the first render
   useEffect(() => {
+    setCardLoading(true);
     apiClient
       .get("/games")
-      .then((res) => setGameData(res.data.results))
+      .then((res) => {
+        setCardLoading(false);
+        setGameData(res.data.results);
+      })
       .catch((err) => setError(err.message));
   }, []);
 
@@ -28,17 +33,27 @@ function App() {
   };
 
   return (
-    <body>
-      <div className=" mx-auto max-w-[1650px] sm:w-full">
-        <NavBar />
-        <div className="w-screen h-10"></div>{" "}
-        {/* Spacer between the NavBar content below */}
-        <div className="flex flex-nowrap">
-          <SideBar onClick={handleSideBar} />
-          <BodyContent GameData={GameData} Error={Error} Title={Title} />
+    <>
+      <body>
+        <div className=" mx-auto max-w-[1650px] sm:w-full">
+          <NavBar />
+          <div className="w-screen h-10"></div>{" "}
+          {/* Spacer between the NavBar content below */}
+          <div className="flex flex-nowrap">
+            <SideBar onClick={handleSideBar} />
+            <BodyContent
+              GameData={GameData}
+              Error={Error}
+              Title={Title}
+              CardLoading={cardLoading}
+            />
+          </div>
         </div>
-      </div>
-    </body>
+      </body>
+      <footer>
+        <div className="w-screen h-20"></div> {/* Footer Spacer*/}
+      </footer>
+    </>
   );
 }
 

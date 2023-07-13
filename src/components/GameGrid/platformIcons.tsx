@@ -35,7 +35,6 @@ export function platformIcons(data: FetchResponse) {
   unique.map((u) => {
     switch (u) {
       case "playstation":
-      case "ps":
         icons.add(<FaPlaystation />);
         break;
       case "xbox":
@@ -51,7 +50,6 @@ export function platformIcons(data: FetchResponse) {
         icons.add(<FaLinux />);
         break;
       case "macos":
-      case "ios":
         icons.add(<FaApple />);
         break;
       case "nintendo":

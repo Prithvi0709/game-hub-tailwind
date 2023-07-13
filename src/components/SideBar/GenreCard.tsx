@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../../services/api-client";
+import { Shimmer } from "react-shimmer";
 
 interface GenreData {
   image_background: string;
@@ -14,11 +15,16 @@ interface Props {
 const GenreCard = ({ onClick }: Props) => {
   const [Genre, setGenre] = useState<GenreData[]>([]);
   const [Error, setError] = useState("");
+  const [genreLoading, setGenreLoading] = useState(false);
 
   useEffect(() => {
+    setGenreLoading(true);
     apiClient
       .get("/genres")
-      .then((res) => setGenre(res.data.results))
+      .then((res) => {
+        setGenreLoading(false);
+        setGenre(res.data.results);
+      })
       .catch((err) => setError(err.message));
   }, []);
 
@@ -26,6 +32,10 @@ const GenreCard = ({ onClick }: Props) => {
     <>
       {Error ? (
         <p className="text-red-700 text-2xl mt-10">{Error}</p>
+      ) : genreLoading ? (
+        <div className="flex flex-col">
+          <ShimmerList count={20} />
+        </div>
       ) : (
         <div className="flex flex-col">
           {Genre.map((genre) => (
@@ -49,6 +59,16 @@ const GenreCard = ({ onClick }: Props) => {
       )}
     </>
   );
+};
+
+const ShimmerList = ({ count }: { count: number }) => {
+  const shimmerItems = Array.from({ length: count }, (_, index) => (
+    <div key={index} className="items-center mb-2">
+      <Shimmer width={120} height={40} className="rounded-lg" />
+    </div>
+  ));
+
+  return <>{shimmerItems}</>;
 };
 
 const GenreLogo = ({ url }: { url: string }) => {

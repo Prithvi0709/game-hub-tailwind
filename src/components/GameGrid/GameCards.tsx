@@ -1,16 +1,20 @@
+import { Shimmer } from "react-shimmer";
 import FetchResponse from "../Helper";
 import { platformIcons } from "./platformIcons";
 
 interface Props {
   GameData: FetchResponse[];
   Error: string;
+  CardLoading: boolean;
 }
 
-const GameCard = ({ GameData, Error }: Props) => {
+const GameCard = ({ GameData, Error, CardLoading }: Props) => {
   return (
     <>
       {Error ? (
         <p className="text-red-700 text-2xl mt-10">{Error}</p>
+      ) : CardLoading ? (
+        CardShimmer()
       ) : (
         <div className="grid grid-cols-3 gap-10 text-white mt-10">
           {GameData.map((data) => (
@@ -35,15 +39,69 @@ const GameCard = ({ GameData, Error }: Props) => {
       )}
     </>
   );
+
+  // Function that initiates the loading effect
+  function CardShimmer() {
+    return (
+      <div className="grid grid-cols-3 gap-10 mt-10">
+        <ShimmerList count={11} />
+      </div>
+    );
+  }
+};
+
+const ShimmerList = ({ count }: { count: number }) => {
+  const shimmerItems = Array.from({ length: count }, (_, index) => (
+    <div key={index}>
+      <Shimmer width={320} height={320} className="rounded-xl" />
+    </div>
+  ));
+
+  return <>{shimmerItems}</>;
 };
 
 // Display the Metacritic Score of the game
 const MetacriticScore = ({ score }: { score: number }) => {
+  let bgColor = "";
+  let textColor = "";
+
+  // Score is null
+  if (score == null) {
+    return (
+      <div
+        className={`${bgColor} bg-opacity-50  
+                  ${textColor} text-sm text-center
+                  w-auto pl-2 pr-2 rounded-lg`}
+      >
+        N/A
+      </div>
+    );
+  }
+
+  // Change the background color based on the metacritic value
+  if (score == null) {
+    bgColor = "bg-slate-200";
+  } else if (score >= 88) {
+    bgColor = "bg-green-700";
+    textColor = "text-green-500";
+  } else if (score >= 80) {
+    bgColor = "bg-yellow-700";
+    textColor = "text-yellow-500";
+  } else if (score >= 70) {
+    bgColor = "bg-orange-700";
+    textColor = "text-orange-500";
+  } else {
+    bgColor = "bg-red-700";
+    textColor = "text-red-500";
+  }
+
+  console.log(bgColor);
+
   return (
     <div
-      className="bg-green-700 bg-opacity-50  
-                  text-green-400 text-lg font-bold text-center
-                  w-auto pl-2 pr-2 rounded-lg "
+      className={`${bgColor} bg-opacity-50  
+                  ${textColor} text-lg font-bold text-center
+                  w-auto pl-2 pr-2 rounded-lg`}
     >
       {score}
     </div>
