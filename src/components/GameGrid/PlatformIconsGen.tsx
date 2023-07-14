@@ -36,6 +36,8 @@ export function platformIcons(data: FetchResponse) {
   const icons: Set<String> = new Set(); // Store unique extracted parent platform slugs
   let finalIcons: React.ReactElement[] = []; // Store the final react icons for the parent platforms
 
+  if (data.platforms == null) return;
+
   // Extract the platform slugs and sture
   data.platforms.map((d) => {
     extractedPlatformSlugs.push(d.platform.slug);

@@ -27,7 +27,11 @@ function App() {
     setCardLoading(true);
     setGenreLoading(true);
     apiClient
-      .get("/games")
+      .get("/games", {
+        params: {
+          page_size: 24,
+        },
+      })
       .then((res) => {
         setCardLoading(false);
         setGameData(res.data.results);
@@ -61,6 +65,7 @@ function App() {
           ...(order && { ordering: order }),
           // searchStatus - false (Clicking Genres must )
           ...(searchStatus && searchQuery && { search: searchQuery }),
+          page_size: 24,
         },
       })
       .then((res) => {
@@ -117,35 +122,34 @@ function App() {
   };
 
   return (
-    <>
-      <body>
-        <div className=" mx-auto max-w-[1650px] sm:w-full">
-          <NavBar onSubmit={handleGameSearch} />
-          <div className="w-screen h-10"></div>{" "}
-          {/* Spacer between the NavBar content below */}
-          <div className="flex flex-nowrap">
-            <SideBar
-              onClick={handleSideBar}
-              Genre={genreList}
-              Error={genreError}
-              genreLoading={genreLoading}
-            />
-            <GameGrid
-              GameData={GameData}
-              Error={gameError}
-              Title={Title}
-              CardLoading={cardLoading}
-              EmptyCardData={emptyCardData}
-              onOrderChange={handleOrdering}
-              onPlatformChange={handlePlatformChange}
-            />
-          </div>
+    <body>
+      <div className=" mx-auto max-w-[1650px] sm:w-full">
+        <NavBar onSubmit={handleGameSearch} />
+        <div className="w-screen h-10"></div>{" "}
+        {/* Spacer between the NavBar content below */}
+        <div className="flex flex-nowrap">
+          <SideBar
+            onClick={handleSideBar}
+            Genre={genreList}
+            Error={genreError}
+            genreLoading={genreLoading}
+          />
+          <GameGrid
+            GameData={GameData}
+            Error={gameError}
+            Title={Title}
+            CardLoading={cardLoading}
+            EmptyCardData={emptyCardData}
+            onOrderChange={handleOrdering}
+            onPlatformChange={handlePlatformChange}
+          />
         </div>
-      </body>
+      </div>
+
       <footer>
         <div className="w-screen h-20"></div> {/* Footer Spacer*/}
       </footer>
-    </>
+    </body>
   );
 }
 

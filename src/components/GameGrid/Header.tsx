@@ -13,11 +13,10 @@ const Header = ({ Title, onOrderChange, onPlatformChange }: Props) => {
             className="bg-neutral-700 h-10 focus:outline-none"
             name="platforms"
             id="platforms"
+            defaultValue=""
             onChange={(event) => onPlatformChange(event.target.value)}
           >
-            <option value="" selected>
-              All Platforms
-            </option>
+            <option value="">All Platforms</option>
             <option value="1">Windows</option>
             <option value="2">Playstation</option>
             <option value="3">Xbox</option>
