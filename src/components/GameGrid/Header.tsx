@@ -1,8 +1,9 @@
 interface Props {
   Title: string;
-  onChange: (val: string) => void;
+  onOrderChange: (val: string) => void;
+  onPlatformChange: (val: string) => void;
 }
-const Header = ({ Title, onChange }: Props) => {
+const Header = ({ Title, onOrderChange, onPlatformChange }: Props) => {
   return (
     <>
       <div className="text-white text-7xl mb-6">{Title}</div>
@@ -12,15 +13,25 @@ const Header = ({ Title, onChange }: Props) => {
             className="bg-neutral-700 h-10 focus:outline-none"
             name="platforms"
             id="platforms"
+            onChange={(event) => onPlatformChange(event.target.value)}
           >
-            <option value="platforms" selected>
-              Platforms
+            <option value="" selected>
+              All Platforms
             </option>
-            <option value="playstation">Playstation</option>
-            <option value="xbox">Xbox</option>
-            <option value="Windows">Windows</option>
-            <option value="MacOS">MacOS</option>
-            <option value="Linux">Linux</option>
+            <option value="1">Windows</option>
+            <option value="2">Playstation</option>
+            <option value="3">Xbox</option>
+            <option value="4">iOS</option>
+            <option value="5">MacOS</option>
+            <option value="6">Linux</option>
+            <option value="7">Nintendo</option>
+            <option value="8">Android</option>
+            <option value="9">Atari</option>
+            <option value="10">Commodore / Amiga</option>
+            <option value="11">Sega</option>
+            <option value="12">3DO</option>
+            <option value="13">Neo Geo</option>
+            <option value="14">Web</option>
           </select>
         </div>
         <div className="flex items-center bg-neutral-700 h-10 pl-5 pr-5 rounded-lg">
@@ -29,11 +40,12 @@ const Header = ({ Title, onChange }: Props) => {
             className="bg-neutral-700 h-10 rounded-lg focus:outline-none"
             name="order"
             id="order"
-            onChange={(event) => onChange(event.target.value)}
+            onChange={(event) => onOrderChange(event.target.value)}
           >
-            <option value="-metacritic" selected>
-              Metacritic Score
+            <option value="" selected>
+              None
             </option>
+            <option value="-metacritic">Metacritic Score</option>
             <option value="-rating">User Rating</option>
           </select>
         </div>

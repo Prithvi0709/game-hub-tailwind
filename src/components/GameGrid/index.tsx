@@ -8,7 +8,8 @@ interface Props {
   Title: string;
   CardLoading: boolean;
   EmptyCardData: boolean;
-  onChange: (val: string) => void;
+  onOrderChange: (val: string) => void;
+  onPlatformChange: (val: string) => void;
 }
 
 const index = ({
@@ -17,15 +18,24 @@ const index = ({
   Title,
   CardLoading,
   EmptyCardData,
-  onChange,
+  onOrderChange,
+  onPlatformChange,
 }: Props) => {
-  const handleOnchange = (val: string) => {
-    onChange(val);
+  const handleOrderchange = (val: string) => {
+    onOrderChange(val);
+  };
+
+  const handlePlatformChange = (val: string) => {
+    onPlatformChange(val);
   };
 
   return (
     <div className="pl-10">
-      <Header Title={Title} onChange={handleOnchange} />
+      <Header
+        Title={Title}
+        onOrderChange={handleOrderchange}
+        onPlatformChange={handlePlatformChange}
+      />
       <GameCard
         GameData={GameData}
         Error={Error}

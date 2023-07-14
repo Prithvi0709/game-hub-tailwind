@@ -11,9 +11,10 @@ function App() {
   const [gameError, setGameError] = useState(""); // gameError for GameCards
   const [Title, setTitle] = useState("Games"); // Title for GameGrid Header
   const [currGenre, setCurrGenre] = useState(""); // The current selected genre
+  const [currPlatform, setCurrPlatform] = useState(""); //The current selected platform
   const [cardLoading, setCardLoading] = useState(false); // Set loading skeleton for GameCards
   const [emptyCardData, setEmptyCardData] = useState(false); // Set if card data is empty
-  const [ordering, setOrdering] = useState("-metacritic"); // Set the ordering of the cards
+  const [ordering, setOrdering] = useState(""); // Set the ordering of the cards
 
   // States for genre
   const [genreList, setGenreList] = useState<GenreData[]>([]); // Set the genre List
@@ -25,7 +26,7 @@ function App() {
     setCardLoading(true);
     setGenreLoading(true);
     apiClient
-      .get("/games?ordering=" + ordering)
+      .get("/games")
       .then((res) => {
         setCardLoading(false);
         setGameData(res.data.results);
@@ -41,18 +42,22 @@ function App() {
       .catch((err) => setGenreError(err.message));
   }, []);
 
-  // Change Game Cards based on genre selection
-  const handleSideBar = (genre: string) => {
-    setTitle(genre);
-    setCurrGenre(genre);
+  // Generic function to fetch game data
+  const fetchGameData = (genre?: string, platform?: string, order?: string) => {
     setEmptyCardData(false);
     setCardLoading(true);
 
     apiClient
-      .get("/games?genres=" + genre.toLowerCase() + "&ordering=" + ordering)
+      .get("/games", {
+        params: {
+          ...(genre && { genres: genre.toLowerCase() }),
+          ...(platform && { parent_platforms: platform }),
+          ...(order && { ordering: order }),
+        },
+      })
       .then((res) => {
         setCardLoading(false);
-        if (res.data.results.length == 0) {
+        if (res.data.results.length === 0) {
           setEmptyCardData(true);
         }
         setGameData(res.data.results);
@@ -60,28 +65,23 @@ function App() {
       .catch((err) => setGameError(err.message));
   };
 
+  // Change Game Cards based on genre selection
+  const handleSideBar = (genre: string) => {
+    setTitle(genre);
+    setCurrGenre(genre);
+    fetchGameData(genre.toLowerCase(), currPlatform, ordering);
+  };
+
   // Update Cards based on ordering
-  const handleOrdering = (ordering: string) => {
-    setEmptyCardData(false);
-    setCardLoading(true);
-    setOrdering(ordering);
+  const handleOrdering = (order: string) => {
+    setOrdering(order);
+    fetchGameData(currGenre, currPlatform, order);
+  };
 
-    console.log("check");
-
-    apiClient
-      .get(
-        "/games?ordering=" +
-          ordering +
-          (currGenre != "" ? "&genres=" + currGenre.toLowerCase() : "")
-      )
-      .then((res) => {
-        setCardLoading(false);
-        if (res.data.results.length == 0) {
-          setEmptyCardData(true);
-        }
-        setGameData(res.data.results);
-      })
-      .catch((err) => setGameError(err.message));
+  // Function to handle when platform is changed
+  const handlePlatformChange = (newPlatform: string) => {
+    setCurrPlatform(newPlatform);
+    fetchGameData(currGenre, newPlatform, ordering);
   };
 
   return (
@@ -104,7 +104,8 @@ function App() {
               Title={Title}
               CardLoading={cardLoading}
               EmptyCardData={emptyCardData}
-              onChange={handleOrdering}
+              onOrderChange={handleOrdering}
+              onPlatformChange={handlePlatformChange}
             />
           </div>
         </div>

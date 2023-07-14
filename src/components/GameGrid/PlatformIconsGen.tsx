@@ -1,4 +1,5 @@
 import FetchResponse from "../Interface";
+import jsonData from "../../assets/platformData.json";
 import {
   FaApple,
   FaAndroid,
@@ -6,59 +7,101 @@ import {
   FaXbox,
   FaWindows,
   FaLinux,
+  FaGlobe,
 } from "react-icons/fa";
-import { SiNintendo } from "react-icons/si";
+import { SiNintendo, SiAtari, SiSega, SiCommodore } from "react-icons/si";
+
+interface Platform {
+  id: number;
+  name: string;
+  slug: string;
+  platforms: SubPlatform[];
+}
+
+interface SubPlatform {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+  image_background: string;
+  image: any;
+  year_start: any;
+  year_end: any;
+}
 
 //Function to generate the platform icons for every GameCard
 export function platformIcons(data: FetchResponse) {
-  let temp: string[] = [];
+  let extractedPlatformSlugs: string[] = [];
+  let platformsData: Platform[] = jsonData.results; // Store the platforms json data
+  const icons: Set<String> = new Set(); // Store unique extracted parent platform slugs
+  let finalIcons: React.ReactElement[] = []; // Store the final react icons for the parent platforms
 
+  // Extract the platform slugs and sture
   data.platforms.map((d) => {
-    temp.push(d.platform.slug);
+    extractedPlatformSlugs.push(d.platform.slug);
   });
 
-  // Split the hi-fun
-  // Remove the numbers
-  for (let i = 0; i < temp.length; i++) {
-    temp[i] = temp[i].split("-")[0];
-    temp[i] = temp[i].replace(/\d/g, "");
+  function getParentPlatformSlug(
+    data: Platform[],
+    subPlatformName: string
+  ): string | null {
+    for (let platform of data) {
+      for (let subPlatform of platform.platforms) {
+        if (subPlatform.slug === subPlatformName) {
+          return platform.slug;
+        }
+      }
+    }
 
-    // Temporary Fix
-    if (temp[i] == "ios") temp[i] = temp[i].replace("ios", "macos");
-    if (temp[i] == "ps") temp[i] = temp[i].replace("ps", "playstation");
+    return null;
   }
-  const unique = Array.from(new Set(temp));
 
-  let finalIcons: React.ReactElement[] = [];
-  const icons: Set<React.ReactElement> = new Set();
+  extractedPlatformSlugs.map((word) => {
+    let parentPlatform = getParentPlatformSlug(platformsData, word);
+    parentPlatform != null && icons.add(parentPlatform);
+  });
 
-  unique.map((u) => {
-    switch (u) {
+  // Slugs "ios" and "mac" must display the same apple icon
+  if (icons.has("mac") && icons.has("ios")) icons.delete("ios");
+
+  Array.from(icons).map((word) => {
+    switch (word) {
       case "playstation":
-        icons.add(<FaPlaystation />);
+        finalIcons.push(<FaPlaystation />);
         break;
       case "xbox":
-        icons.add(<FaXbox />);
+        finalIcons.push(<FaXbox />);
         break;
       case "pc":
-        icons.add(<FaWindows />);
+        finalIcons.push(<FaWindows />);
         break;
       case "android":
-        icons.add(<FaAndroid />);
+        finalIcons.push(<FaAndroid />);
         break;
       case "linux":
-        icons.add(<FaLinux />);
+        finalIcons.push(<FaLinux />);
         break;
-      case "macos":
-        icons.add(<FaApple />);
+      case "mac":
+      case "ios":
+        finalIcons.push(<FaApple />);
         break;
       case "nintendo":
-        icons.add(<SiNintendo />);
+        finalIcons.push(<SiNintendo />);
+        break;
+      case "atari":
+        finalIcons.push(<SiAtari />);
+        break;
+      case "sega":
+        finalIcons.push(<SiSega />);
+        break;
+      case "commodore-amiga":
+        finalIcons.push(<SiCommodore />);
+        break;
+      case "web":
+        finalIcons.push(<FaGlobe />);
         break;
     }
   });
-
-  finalIcons = Array.from(icons);
 
   return (
     <div className="flex">
