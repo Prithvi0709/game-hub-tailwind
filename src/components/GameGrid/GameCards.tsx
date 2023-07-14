@@ -76,7 +76,9 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="relative w-full text-4xl p-5">{data.name}</div>
+              <div className="relative w-full text-3xl font-semibold p-5">
+                {data.name}
+              </div>
             </div>
           ))}
         </div>
@@ -88,7 +90,7 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
   function CardShimmer() {
     return (
       <div className="grid grid-cols-3 gap-10 mt-10">
-        <ShimmerList count={11} />
+        <ShimmerList count={20} />
       </div>
     );
   }

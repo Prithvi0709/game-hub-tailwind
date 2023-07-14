@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import GameGrid from "./components/GameGrid/index";
-import NavBar from "./components/NavBar/index";
+import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
 import apiClient from "./services/api-client";
 import FetchResponse, { GenreData } from "./components/Interface";
@@ -12,6 +12,7 @@ function App() {
   const [Title, setTitle] = useState("Games"); // Title for GameGrid Header
   const [currGenre, setCurrGenre] = useState(""); // The current selected genre
   const [currPlatform, setCurrPlatform] = useState(""); //The current selected platform
+  const [searchQuery, setSearchQuery] = useState(""); //The current search Query
   const [cardLoading, setCardLoading] = useState(false); // Set loading skeleton for GameCards
   const [emptyCardData, setEmptyCardData] = useState(false); // Set if card data is empty
   const [ordering, setOrdering] = useState(""); // Set the ordering of the cards
@@ -53,6 +54,7 @@ function App() {
           ...(genre && { genres: genre.toLowerCase() }),
           ...(platform && { parent_platforms: platform }),
           ...(order && { ordering: order }),
+          ...(searchQuery && { search: searchQuery }),
         },
       })
       .then((res) => {
@@ -84,11 +86,34 @@ function App() {
     fetchGameData(currGenre, newPlatform, ordering);
   };
 
+  // Function to search for games from the search bar
+  const handleGameSearch = (query: string) => {
+    setCardLoading(true);
+    setEmptyCardData(false);
+    setTitle("Search");
+    setSearchQuery(query);
+
+    apiClient
+      .get("/games", {
+        params: {
+          search: query,
+        },
+      })
+      .then((res) => {
+        setCardLoading(false);
+        if (res.data.results.length === 0) {
+          setEmptyCardData(true);
+        }
+        setGameData(res.data.results);
+      })
+      .catch((err) => setGameError(err.message));
+  };
+
   return (
     <>
       <body>
         <div className=" mx-auto max-w-[1650px] sm:w-full">
-          <NavBar />
+          <NavBar onSubmit={handleGameSearch} />
           <div className="w-screen h-10"></div>{" "}
           {/* Spacer between the NavBar content below */}
           <div className="flex flex-nowrap">
