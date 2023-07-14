@@ -44,7 +44,12 @@ function App() {
   }, []);
 
   // Generic function to fetch game data
-  const fetchGameData = (genre?: string, platform?: string, order?: string) => {
+  const fetchGameData = (
+    genre?: string,
+    platform?: string,
+    order?: string,
+    searchStatus: boolean = true
+  ) => {
     setEmptyCardData(false);
     setCardLoading(true);
 
@@ -54,7 +59,8 @@ function App() {
           ...(genre && { genres: genre.toLowerCase() }),
           ...(platform && { parent_platforms: platform }),
           ...(order && { ordering: order }),
-          ...(searchQuery && { search: searchQuery }),
+          // searchStatus - false (Clicking Genres must )
+          ...(searchStatus && searchQuery && { search: searchQuery }),
         },
       })
       .then((res) => {
@@ -71,7 +77,8 @@ function App() {
   const handleSideBar = (genre: string) => {
     setTitle(genre);
     setCurrGenre(genre);
-    fetchGameData(genre.toLowerCase(), currPlatform, ordering);
+    setSearchQuery("");
+    fetchGameData(genre.toLowerCase(), currPlatform, ordering, false);
   };
 
   // Update Cards based on ordering
