@@ -122,7 +122,7 @@ function App() {
   };
 
   return (
-    <body>
+    <>
       <div className=" mx-auto max-w-[1650px] sm:w-full">
         <NavBar onSubmit={handleGameSearch} />
         <div className="w-screen h-10"></div>{" "}
@@ -145,11 +145,10 @@ function App() {
           />
         </div>
       </div>
-
       <footer>
         <div className="w-screen h-20"></div> {/* Footer Spacer*/}
       </footer>
-    </body>
+    </>
   );
 }
 

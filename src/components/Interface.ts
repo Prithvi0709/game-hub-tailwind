@@ -5,6 +5,12 @@ export default interface FetchResponse {
   metacritic: number;
   rating: number;
   suggestions_count: number;
+  rating_top: number;
+  released: string;
+  esrb_rating: {
+    id: number;
+    name: string;
+  };
   platforms: {
     platform: { id: number; name: string; slug: string };
   }[];

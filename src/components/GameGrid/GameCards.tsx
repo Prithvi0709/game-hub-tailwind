@@ -1,7 +1,8 @@
 import { Shimmer } from "react-shimmer";
 import FetchResponse from "../Interface";
 import { platformIcons } from "./PlatformIconsGen";
-import { UserRating, MetacriticScore } from "./ScoringLogic";
+import { MetacriticScore } from "./ScoringLogic";
+import { RiStarLine, RiStarHalfLine, RiStarFill } from "react-icons/ri"; // Replace with your actual icons
 
 interface Props {
   GameData: FetchResponse[];
@@ -32,6 +33,9 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
     );
   }
 
+  // Removed metacriting and user rating hover for now.
+  //TODO: Figure out how to have metacritic and user rating hover with the hover for additional data
+
   return (
     <>
       {Error ? (
@@ -39,12 +43,14 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
       ) : CardLoading ? (
         CardShimmer()
       ) : (
-        <div className="grid grid-cols-3 gap-10 text-white mt-10">
+        <div className="grid grid-cols-3 gap-8 text-white mt-10 z-0">
           {GameData.map((data) => (
             <div
               key={data.id}
               className="flex flex-col justify-start
-                        min-h-max w-80 rounded-xl bg-neutral-700"
+                        min-h-max w-80 rounded-xl bg-neutral-800 
+                        transition-all duration-200 ease-in-out 
+             relative group overflow-visible hover:z-10"
             >
               <img
                 src={data.background_image}
@@ -53,31 +59,50 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
               />
               <div className="flex flex-row justify-between items-center pl-5 pt-5 pr-5">
                 <div className="text-white">{platformIcons(data)}</div>
-                <div className="relative ml-auto mr-2 group cursor-default">
-                  <UserRating rating={data.rating} />
-                  <div
-                    className="absolute w-full h-full bottom-5 text-sm 
-                              opacity-50
-                              scale-0 group-hover:scale-100 
-                                  transition-all duration-100"
-                  >
-                    Ratings
-                  </div>
-                </div>
-                <div className="relative group cursor-default">
+                <div className="relative cursor-default">
                   <MetacriticScore score={data.metacritic} />
-                  <div
-                    className="absolute w-full h-full bottom-5 right-3 text-sm 
-                              opacity-50
-                              scale-0 group-hover:scale-100 
-                                  transition-all duration-100"
-                  >
-                    Metacritic
-                  </div>
                 </div>
               </div>
               <div className="relative w-full text-3xl font-semibold p-5">
                 {data.name}
+              </div>
+              <div
+                className="absolute left-0 w-full rounded-xl bg-neutral-800 
+              opacity-0 transform scale-100 group-hover:opacity-100 group-hover:scale-105 ease-in-out transition-all duration-100 z-10"
+              >
+                {/* Duplicate your card content here, plus additional information */}
+                <img
+                  src={data.background_image}
+                  alt="Picture"
+                  className="aspect-video object-cover rounded-t-xl"
+                />
+                <div className="flex flex-row justify-between items-center pl-5 pt-5 pr-5">
+                  <div className="text-white">{platformIcons(data)}</div>
+                  <div className="relative cursor-default">
+                    <MetacriticScore score={data.metacritic} />
+                  </div>
+                </div>
+                <div className="relative w-full text-3xl font-semibold p-5">
+                  {data.name}
+                </div>
+                <div className="p-5 opacity-50">
+                  {data.released && (
+                    <div className="flex flex-row justify-between mb-2 w-auto h-auto">
+                      <div>Release Date</div>
+                      <div>{formatDate(data.released)}</div>
+                    </div>
+                  )}
+                  <div className="flex flex-row justify-between mb-2 w-auto h-auto">
+                    <div>Rating</div>
+                    <Rating rating={data.rating} />
+                  </div>
+                  {data.esrb_rating && (
+                    <div className="flex flex-row justify-between w-auto h-auto">
+                      <div>Audience</div>
+                      <div>{data.esrb_rating.name}</div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -96,6 +121,7 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
   }
 };
 
+// Funtion to return the shimmer list
 const ShimmerList = ({ count }: { count: number }) => {
   const shimmerItems = Array.from({ length: count }, (_, index) => (
     <div key={index}>
@@ -104,6 +130,53 @@ const ShimmerList = ({ count }: { count: number }) => {
   ));
 
   return <>{shimmerItems}</>;
+};
+
+// Function to return the date format
+const formatDate = (date: string): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  };
+
+  const formattedDate = new Date(date).toLocaleDateString("en-US", options);
+  return formattedDate;
+};
+
+// Function to return the star rating
+const roundRating = (rating: number): number => {
+  const decimal = rating % 1;
+  if (decimal < 0.25) {
+    return Math.floor(rating);
+  } else if (decimal < 0.75) {
+    return Math.floor(rating) + 0.5;
+  } else {
+    return Math.ceil(rating);
+  }
+};
+
+const Rating = ({ rating }: { rating: number }) => {
+  const roundedRating = roundRating(rating);
+
+  return (
+    <div className="flex flex-row items-center">
+      {[...Array(5)].map((_e, i) => {
+        const starRating = i + 1;
+        return (
+          <div key={i} className="text-yellow-500">
+            {starRating <= roundedRating ? (
+              <RiStarFill />
+            ) : starRating - 0.5 === roundedRating ? (
+              <RiStarHalfLine />
+            ) : (
+              <RiStarLine />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 export default GameCard;

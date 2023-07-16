@@ -108,7 +108,7 @@ export function platformIcons(data: FetchResponse) {
   return (
     <div className="flex">
       {finalIcons.map((i) => (
-        <div className="mr-2 opacity-50">{i}</div>
+        <div className="mr-2 opacity-60">{i}</div>
       ))}
     </div>
   );
