@@ -1,10 +1,20 @@
 import { useState } from "react";
+import useDarkMode from "../DarkMode";
 
 export const Toggle = () => {
-  const [checked, setChecked] = useState(false);
+  const { colorTheme, setTheme } = useDarkMode();
+  const [darkSide, setDarkSide] = useState(
+    colorTheme === "light" ? true : false
+  );
 
-  const handleToggle = () => {
-    setChecked(!checked);
+  const toggleDarkMode = (checked: boolean) => {
+    setTheme(colorTheme);
+    setDarkSide(checked);
+    if (colorTheme === "dark") {
+      document.body.style.backgroundColor = "#181818";
+    } else {
+      document.body.style.backgroundColor = "white"; // You can set the light theme color here
+    }
   };
 
   return (
@@ -17,17 +27,17 @@ export const Toggle = () => {
           id="toggle"
           type="checkbox"
           className="sr-only"
-          checked={checked}
-          onChange={handleToggle}
+          checked={darkSide}
+          onChange={() => toggleDarkMode(!darkSide)}
         />
         <div
           className={`w-12 h-6 bg-gray-300 transition-all duration-200 rounded-full shadow-inner ${
-            checked ? "bg-green-500 transition-all duration-200" : ""
+            darkSide ? "bg-green-500 transition-all duration-200" : ""
           }`}
         ></div>
         <div
           className={`dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transition ${
-            checked ? "transform translate-x-6" : "transform translate-x-0"
+            darkSide ? "transform translate-x-6" : "transform translate-x-0"
           }`}
         ></div>
       </div>

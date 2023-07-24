@@ -13,7 +13,7 @@ const NavBar = ({ onSubmit }: Props) => {
   return (
     <div
       className="flex flex-row justify-between 
-     items-center bg-neutral-900  w-full h-20"
+     items-center bg-neutral-700 dark:bg-neutral-900  w-full h-20"
     >
       <Logo />
       <SearchBar onSubmit={(query: string) => handleOnSubmit(query)} />

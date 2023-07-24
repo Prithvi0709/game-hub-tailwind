@@ -13,7 +13,7 @@ const SideBar = ({ onClick, Genre, Error, genreLoading }: Props) => {
     onClick(genre);
   };
   return (
-    <div className="text-white w-[300px] pl-7">
+    <div className="text-black dark:text-white w-[300px] pl-7">
       <div className="font-semi-bold text-4xl mt-4 mb-7">Genres</div>
       <GenreCard
         onClick={handleOnclick}

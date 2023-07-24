@@ -124,7 +124,7 @@ function App() {
   // Code for rendering the desktop version of the website
   return (
     <>
-      <div className=" mx-auto max-w-[1650px] sm:w-full">
+      <div className=" mx-auto max-w-[1650px] sm:w-full  dark:bg-[#181818]">
         <NavBar onSubmit={handleGameSearch} />
         <div className="w-screen h-10"></div>{" "}
         {/* Spacer between the NavBar content below */}

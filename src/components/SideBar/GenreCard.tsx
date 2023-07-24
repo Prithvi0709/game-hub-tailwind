@@ -25,8 +25,8 @@ const GenreCard = ({ onClick, Error, genreLoading, Genre }: Props) => {
                 onClick={() => {
                   onClick(genre.name);
                 }}
-                className="rounded-lg  hover:bg-white hover:text-black 
-                active:bg-slate-200 font-light active:font-bold
+                className="rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black 
+                active:bg-slate-500  dark:active:bg-slate-200 font-light active:font-bold
                 transition-all duration-200"
               >
                 <div className="flex justify-start items-center gap-4">

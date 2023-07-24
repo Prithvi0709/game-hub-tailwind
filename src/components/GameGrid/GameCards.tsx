@@ -43,12 +43,12 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
       ) : CardLoading ? (
         CardShimmer()
       ) : (
-        <div className="grid xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 gap-8 text-white mt-10 z-0">
+        <div className="grid xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 gap-8 text-black dark:text-white mt-10 z-0">
           {GameData.map((data) => (
             <div
               key={data.id}
               className="flex flex-col justify-start
-                        min-h-max w-80 rounded-xl bg-neutral-800 
+                        min-h-max w-80 rounded-xl bg-neutral-200 dark:bg-neutral-800 
                         transition-all duration-200 ease-in-out 
              relative group overflow-visible hover:z-10"
             >
@@ -67,7 +67,7 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
                 {data.name}
               </div>
               <div
-                className="absolute left-0 w-full rounded-xl bg-neutral-800 
+                className="absolute left-0 w-full rounded-xl bg-neutral-200 dark:bg-neutral-800 
               opacity-0 transform scale-100 group-hover:opacity-100 group-hover:scale-105 ease-in-out transition-all duration-100 z-10"
               >
                 {/* Duplicate your card content here, plus additional information */}
@@ -77,7 +77,7 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
                   className="aspect-video object-cover rounded-t-xl"
                 />
                 <div className="flex flex-row justify-between items-center pl-5 pt-5 pr-5">
-                  <div className="text-white">{platformIcons(data)}</div>
+                  <div>{platformIcons(data)}</div>
                   <div className="relative cursor-default">
                     <MetacriticScore score={data.metacritic} />
                   </div>

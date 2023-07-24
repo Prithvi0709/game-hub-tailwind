@@ -19,21 +19,21 @@ export const MetacriticScore = ({ score }: { score: number }) => {
   // Change the background color based on the metacritic value
   if (score >= 88) {
     bgColor = "bg-green-700";
-    textColor = "text-green-500";
+    textColor = "text-green-400";
   } else if (score >= 80) {
     bgColor = "bg-yellow-700";
-    textColor = "text-yellow-500";
+    textColor = "text-yellow-400";
   } else if (score >= 70) {
     bgColor = "bg-orange-700";
-    textColor = "text-orange-500";
+    textColor = "text-orange-400";
   } else {
     bgColor = "bg-red-700";
-    textColor = "text-red-500";
+    textColor = "text-red-400";
   }
 
   return (
     <div
-      className={`${bgColor} bg-opacity-50  
+      className={`${bgColor} dark:bg-opacity-50  
                   ${textColor} text-lg font-bold text-center
                   w-auto pl-2 pr-2 rounded-lg `}
     >

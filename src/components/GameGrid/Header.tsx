@@ -6,11 +6,11 @@ interface Props {
 const Header = ({ Title, onOrderChange, onPlatformChange }: Props) => {
   return (
     <>
-      <div className="text-white text-7xl mb-6">{Title}</div>
-      <div className="flex flex-wrap gap-3 text-white text-xl font-semibold">
-        <div className=" bg-neutral-700 rounded-lg pl-5 pr-5">
+      <div className="text-black dark:text-white text-7xl mb-6">{Title}</div>
+      <div className="flex flex-wrap gap-3 text-black dark:text-white text-xl font-semibold">
+        <div className=" bg-neutral-100 dark:bg-neutral-700 rounded-lg pl-5 pr-5">
           <select
-            className="bg-neutral-700 h-10 focus:outline-none"
+            className="bg-neutral-100 dark:bg-neutral-700 h-10 focus:outline-none"
             name="platforms"
             id="platforms"
             defaultValue=""
@@ -33,10 +33,10 @@ const Header = ({ Title, onOrderChange, onPlatformChange }: Props) => {
             <option value="14">Web</option>
           </select>
         </div>
-        <div className="flex items-center bg-neutral-700 h-10 pl-5 pr-5 rounded-lg">
+        <div className="flex items-center bg-neutral-100 dark:bg-neutral-700 h-10 pl-5 pr-5 rounded-lg">
           <p>Order by:</p>
           <select
-            className="bg-neutral-700 h-10 rounded-lg focus:outline-none"
+            className="bg-neutral-100 dark:bg-neutral-700 h-10 rounded-lg focus:outline-none"
             name="order"
             id="order"
             onChange={(event) => onOrderChange(event.target.value)}
