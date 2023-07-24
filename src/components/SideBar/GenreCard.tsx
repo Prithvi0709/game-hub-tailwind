@@ -14,13 +14,13 @@ const GenreCard = ({ onClick, Error, genreLoading, Genre }: Props) => {
       {Error ? (
         <p className="text-red-700 text-2xl mt-10">{Error}</p>
       ) : genreLoading ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           <ShimmerList count={20} />
         </div>
       ) : (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           {Genre.map((genre) => (
-            <div key={genre.id} className="items-center mb-2 ">
+            <div key={genre.id} className="items-center ">
               <button
                 onClick={() => {
                   onClick(genre.name);
@@ -29,9 +29,9 @@ const GenreCard = ({ onClick, Error, genreLoading, Genre }: Props) => {
                 active:bg-slate-200 font-light active:font-bold
                 transition-all duration-200"
               >
-                <div className="flex justify-start items-center pr-2 ">
+                <div className="flex justify-start items-center gap-4">
                   <GenreLogo url={genre.image_background} />
-                  <div className="ml-4 text-lg ">{genre.name}</div>
+                  <div className="text-lg pr-2">{genre.name}</div>
                 </div>
               </button>
             </div>
@@ -54,7 +54,7 @@ const ShimmerList = ({ count }: { count: number }) => {
 
 const GenreLogo = ({ url }: { url: string }) => {
   return (
-    <div className="text-white bg-transparent w-10 h-10 my-auto">
+    <div className="text-white bg-transparent w-10 h-10 my-auto flex-shrink-0">
       <img src={url} className="aspect-square object-cover rounded-lg" />
     </div>
   );

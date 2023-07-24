@@ -43,7 +43,7 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
       ) : CardLoading ? (
         CardShimmer()
       ) : (
-        <div className="grid grid-cols-3 gap-8 text-white mt-10 z-0">
+        <div className="grid xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 gap-8 text-white mt-10 z-0">
           {GameData.map((data) => (
             <div
               key={data.id}

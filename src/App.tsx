@@ -121,13 +121,14 @@ function App() {
       .catch((err) => setGameError(err.message));
   };
 
+  // Code for rendering the desktop version of the website
   return (
     <>
       <div className=" mx-auto max-w-[1650px] sm:w-full">
         <NavBar onSubmit={handleGameSearch} />
         <div className="w-screen h-10"></div>{" "}
         {/* Spacer between the NavBar content below */}
-        <div className="flex flex-nowrap">
+        <div className="flex flex-nowrap gap-2">
           <SideBar
             onClick={handleSideBar}
             Genre={genreList}

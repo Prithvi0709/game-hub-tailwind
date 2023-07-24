@@ -11,7 +11,10 @@ const NavBar = ({ onSubmit }: Props) => {
     onSubmit(query);
   };
   return (
-    <div className="flex flex-row flex-nowrap justify-between items-center bg-neutral-900  w-full h-20">
+    <div
+      className="flex flex-row justify-between 
+     items-center bg-neutral-900  w-full h-20"
+    >
       <Logo />
       <SearchBar onSubmit={(query: string) => handleOnSubmit(query)} />
       <Toggle />

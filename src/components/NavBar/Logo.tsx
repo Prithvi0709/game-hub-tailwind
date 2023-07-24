@@ -1,7 +1,7 @@
 // Function that returns a logo element
 export const Logo = () => {
   return (
-    <div className="text-white bg-transparent w-12 h-12 ml-5 my-auto">
+    <div className="text-white bg-transparent w-12 h-12 ml-5 my-auto ">
       <img
         src="/logo-alt2.png"
         className="aspect-square object-cover rounded-lg 

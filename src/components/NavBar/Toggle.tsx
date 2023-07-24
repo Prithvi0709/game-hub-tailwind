@@ -8,7 +8,10 @@ export const Toggle = () => {
   };
 
   return (
-    <label htmlFor="toggle" className="flex items-center cursor-pointer mr-5">
+    <label
+      htmlFor="toggle"
+      className="flex flex-shrink-0 items-center cursor-pointer mr-5  "
+    >
       <div className="relative">
         <input
           id="toggle"

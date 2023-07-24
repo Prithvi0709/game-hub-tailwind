@@ -30,7 +30,7 @@ const index = ({
   };
 
   return (
-    <div className="pl-10">
+    <div>
       <Header
         Title={Title}
         onOrderChange={handleOrderchange}

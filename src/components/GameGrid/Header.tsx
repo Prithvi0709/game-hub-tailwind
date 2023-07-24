@@ -7,8 +7,8 @@ const Header = ({ Title, onOrderChange, onPlatformChange }: Props) => {
   return (
     <>
       <div className="text-white text-7xl mb-6">{Title}</div>
-      <div className="flex text-white text-xl font-semibold">
-        <div className=" bg-neutral-700 rounded-lg mr-5 pl-5 pr-5">
+      <div className="flex flex-wrap gap-3 text-white text-xl font-semibold">
+        <div className=" bg-neutral-700 rounded-lg pl-5 pr-5">
           <select
             className="bg-neutral-700 h-10 focus:outline-none"
             name="platforms"

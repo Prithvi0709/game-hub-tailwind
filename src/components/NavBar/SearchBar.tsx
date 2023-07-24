@@ -16,19 +16,19 @@ export const SearchBar = ({ onSubmit }: Props) => {
   };
 
   return (
-    <form onSubmit={(event) => handleFormSubmit(event, event.currentTarget)}>
-      <div>
+    <div className="xl:flex-none flex-grow ml-3 mr-3">
+      <form onSubmit={(event) => handleFormSubmit(event, event.currentTarget)}>
         <BsSearch size={15} className="text-white absolute z-10 mt-3 ml-3" />
         <input
           type="text"
           placeholder="Search games..."
-          className="relative bg-neutral-800 rounded-full h-10 w-[900px] 
+          className="bg-neutral-800 rounded-full h-10 xl:w-[900px] w-full
         text-white pl-9  border-none 
         active:ring-0
         focus:outline-none focus:bg-neutral-700 
-        transition-all duration-200"
+        transition-colors duration-200"
         ></input>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
