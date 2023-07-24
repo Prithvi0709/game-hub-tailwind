@@ -33,9 +33,6 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
     );
   }
 
-  // Removed metacriting and user rating hover for now.
-  //TODO: Figure out how to have metacritic and user rating hover with the hover for additional data
-
   return (
     <>
       {Error ? (
@@ -82,7 +79,10 @@ const GameCard = ({ GameData, Error, CardLoading, EmptyCardData }: Props) => {
                     <MetacriticScore score={data.metacritic} />
                   </div>
                 </div>
-                <div className="relative w-full text-3xl font-semibold p-5">
+                <div
+                  className="relative w-full text-3xl font-semibold p-5 cursor-pointer"
+                  onClick={() => console.log("clicked")}
+                >
                   {data.name}
                 </div>
                 <div className="p-5 opacity-50">
